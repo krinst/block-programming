@@ -91,19 +91,15 @@ class BlockManager {
   
   void executeProgram() {
     sort();
-    println("success sorting");
     
     if (validate()) {
-      println("valid");
       BlockStatement commands = createBlockStatement(blocks);
-      println("commands made");
       println(commands.toString());
       commands.execute();
-      println("execution successful");
     }
   }
   
-  private BlockStatement createBlockStatement(ArrayList<Block> blockList) {
+  BlockStatement createBlockStatement(ArrayList<Block> blockList) {
     return createBlockStatement(blockList, new BlockStatement());
   }
   
@@ -124,7 +120,7 @@ class BlockManager {
       
     }
     // switch to decide statement
-    switch ( blockLabels.get(block.symbolID) ) { //<>//
+    switch ( blockLabels.get(block.symbolID) ) {
       case "move": bs.add(new MoveStatement(character)); break;
       case "turn right": bs.add(new TurnStatement(character, "right")); break;
       case "turn left": bs.add(new TurnStatement(character, "left")); break;

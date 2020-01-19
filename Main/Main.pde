@@ -7,6 +7,8 @@ Canvas canvas;
 ArrayList<Sprite> sprites;
 //HashMap<String, Sprite> sprites2;
 BlockManager bm;
+ArrayList<Statement> statementsList;
+final int PAUSE_TIME = 1000;
 
 boolean running = false;
 boolean testingMode = true;
@@ -59,9 +61,16 @@ void draw(){
   canvas.update();
   
   // Run programme if running is true
+  //if (running) {
+  //  bm.executeProgram();
+  //  running = false;
+  //}
   if (running) {
-    bm.executeProgram();
-    running = false;
+    if (statementsList.size() > 0) {
+      executeFirst(statementsList);
+    } else {
+      running = false;
+    }
   }
   
   // Only use in testing mode, shows the location of the blocks
@@ -87,7 +96,8 @@ void addTuioObject(TuioObject tobj) {
   if (testingMode) println("add obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle());
   
   if (tobj.getSymbolID() == 35) {
-    running = true;
+    getStatementArray();
+    running = true; //<>//
   } else {
     bm.add(tobj.getX(), tobj.getY(), tobj.getSessionID(), tobj.getSymbolID());
   }
@@ -101,6 +111,7 @@ void updateTuioObject (TuioObject tobj) {
   int val = bm.find(tobj.getSessionID());
   if (val != -1) {
     bm.update(val, tobj.getX(), tobj.getY());
+    println("position updated");
   }
 }
 
@@ -115,5 +126,25 @@ void removeTuioObject(TuioObject tobj) {
     if (val != -1) {
       bm.remove(val);
     }
+  }
+}
+
+/*
+ * EXECUTE PROGRAM STEP BY STEP
+ */
+// Execute and remove first statement from list
+void executeFirst(ArrayList<Statement> sl) {
+  Statement s = sl.get(0);
+  s.execute();
+  canvas.update();
+  sl.remove(0);
+  int time = millis();
+  while (millis() - time < PAUSE_TIME) {}
+}
+
+void getStatementArray() {
+  bm.sort();
+  if (bm.validate()) { //<>//
+    statementsList = bm.createBlockStatement(bm.blocks).asArray();
   }
 }

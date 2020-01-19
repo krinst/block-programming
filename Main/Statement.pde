@@ -41,6 +41,10 @@ class BlockStatement extends Statement {
     
     return str;
   }
+  
+  ArrayList<Statement> asArray() {
+    return statements;
+  }
 }
 
 

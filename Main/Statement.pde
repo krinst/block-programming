@@ -126,17 +126,23 @@ class ConditionalStatement extends Statement {
 class LoopStatement extends Statement {
   BlockStatement statements;
   boolean value;
+  String comparator;
   
   LoopStatement(String comparator, Object arg1, Object arg2, BlockStatement statements) {
     this.statements = statements;
+    this.comparator = comparator;
   }
   
   void execute() {
+    switch (comparator) {
+      case "equals":
+        
+    }
     while (value) {
       statements.execute();
       // update value
     }
   }
   
-  String toString() {return "loop";}
+  String toString() {return "loop - " + statements.toString();}
 }

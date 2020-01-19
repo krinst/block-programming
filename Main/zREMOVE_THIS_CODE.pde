@@ -91,3 +91,37 @@
         
   //  }
   //}
+  
+      //BlockStatement tempBS = new BlockStatement();
+      // tempBS.add( new ifStatement("equals", 0, 1);
+      //return createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) );
+
+  //void toBlockStatement() {
+  //  sort();
+  //  if (validate()) {
+  //    for (int i = 0; i < blocks.size(); i++) {
+  //      Block block = blocks.get(i);
+  //      if (block instanceof ContainerBlock) {
+        
+  //      }
+  //    }
+  //  }
+  //}
+  
+  //int findNextClosingBlock(int i) {
+  //  for (; i < blocks.size(); i++) {
+  //    if (blocks.get(i) instanceof ClosingBlock) {
+  //      return i;
+  //    }
+  //  }
+  //  return -1;
+  //}
+  
+  //int findNextContainerBlock(int i) {
+  //  for (; i < blocks.size(); i++) {
+  //    if (blocks.get(i) instanceof ContainerBlock) {
+  //      return i;
+  //    }
+  //  }
+  //  return -1;
+  //}

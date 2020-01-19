@@ -16,6 +16,7 @@ class BlockManager {
     // Container Blocks (10 - )
     blockLabels.put(10, "loop forever");
     blockLabels.put(11, "loop until cat");
+    blockLabels.put(12, "loop twice");
     
     // Closing Block
     blockLabels.put(34, "close");
@@ -54,24 +55,6 @@ class BlockManager {
     return -1;
   }
   
-  //int findNextClosingBlock(int i) {
-  //  for (; i < blocks.size(); i++) {
-  //    if (blocks.get(i) instanceof ClosingBlock) {
-  //      return i;
-  //    }
-  //  }
-  //  return -1;
-  //}
-  
-  //int findNextContainerBlock(int i) {
-  //  for (; i < blocks.size(); i++) {
-  //    if (blocks.get(i) instanceof ContainerBlock) {
-  //      return i;
-  //    }
-  //  }
-  //  return -1;
-  //}
-  
   void sort() {
     Block temp;
         for (int i = 1; i < blocks.size(); i++) {
@@ -106,18 +89,6 @@ class BlockManager {
     return false;
   }
   
-  //void toBlockStatement() {
-  //  sort();
-  //  if (validate()) {
-  //    for (int i = 0; i < blocks.size(); i++) {
-  //      Block block = blocks.get(i);
-  //      if (block instanceof ContainerBlock) {
-        
-  //      }
-  //    }
-  //  }
-  //}
-  
   void executeProgram() {
     sort();
     println("success sorting");
@@ -145,10 +116,6 @@ class BlockManager {
       return bs;
     }
     if (block instanceof ContainerBlock) {
-      //BlockStatement tempBS = new BlockStatement();
-      // tempBS.add( new ifStatement("equals", 0, 1);
-      //return createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) );
-      
       // if condition
       bs.add( new ConditionalStatement( "comparator", "arg1", "arg2", createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
       

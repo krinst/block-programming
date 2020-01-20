@@ -44,6 +44,7 @@ void setup(){
   // Create BlockManager
   bm = new BlockManager();
   bm.character = (Character) sprites.get(0);
+  bm.target = (Character) sprites.get(1);
   
   // Create a TuioProcessing client instance
   tuioClient = new TuioProcessing(this);
@@ -105,13 +106,12 @@ void addTuioObject(TuioObject tobj) {
 
 // When a TUIO Object is moved
 void updateTuioObject (TuioObject tobj) {
-  if (testingMode) println("set obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle()
-    +" "+tobj.getMotionSpeed()+" "+tobj.getRotationSpeed()+" "+tobj.getMotionAccel()+" "+tobj.getRotationAccel());
+  /*if (testingMode) println("set obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle()
+    +" "+tobj.getMotionSpeed()+" "+tobj.getRotationSpeed()+" "+tobj.getMotionAccel()+" "+tobj.getRotationAccel());*/
   
   int val = bm.find(tobj.getSessionID());
   if (val != -1) {
     bm.update(val, tobj.getX(), tobj.getY());
-    println("position updated");
   }
 }
 
@@ -135,6 +135,7 @@ void removeTuioObject(TuioObject tobj) {
 // Execute and remove first statement from list
 void executeFirst(ArrayList<Statement> sl) {
   Statement s = sl.get(0);
+  //println("executing: " + s.toString());
   s.execute();
   canvas.update();
   sl.remove(0);
@@ -144,7 +145,7 @@ void executeFirst(ArrayList<Statement> sl) {
 
 void getStatementArray() {
   bm.sort();
-  if (bm.validate()) { //<>//
+  if (bm.validate()) {
     statementsList = bm.createBlockStatement(bm.blocks).asArray();
   }
 }

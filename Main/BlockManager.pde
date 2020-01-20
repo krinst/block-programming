@@ -5,6 +5,7 @@ class BlockManager {
   ArrayList<Block> blocks = new ArrayList();
   HashMap<Integer, String> blockLabels = new HashMap<Integer, String>();
   Character character;
+  Character target;
   
   BlockManager() {
     // Match blocks to its name
@@ -50,6 +51,31 @@ class BlockManager {
       Block block = blocks.get(i);
       if (block.sessionID == id) {
         return i;
+      }
+    }
+    return -1;
+  }
+  
+  int findNextClosingBlock(ArrayList<Block> ls) {
+    for (int i = 0; i < ls.size(); i++) {
+      if (ls.get(i) instanceof ClosingBlock) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  
+  int findClosingBlock(ArrayList<Block> ls, int containerRef) {
+    int level = 0;
+    for (int i = containerRef; i < ls.size(); i++) {
+      if (ls.get(i) instanceof ContainerBlock) {
+        level++;
+      }
+      if (ls.get(i) instanceof ClosingBlock) {
+        level--;
+        if (level == 0) {
+          return i;
+        }
       }
     }
     return -1;
@@ -112,11 +138,25 @@ class BlockManager {
       return bs;
     }
     if (block instanceof ContainerBlock) {
+      Sprite[] characterTarget = {character, target};
+      
       // if condition
       bs.add( new ConditionalStatement( "comparator", "arg1", "arg2", createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
       
       // loop
-      bs.add( new LoopStatement( "comparator", "arg1", "arg2", createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
+      // bs.add( new LoopStatement( "comparator", ["arg1", "arg2"], createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
+      //int closingBlockRef = findNextClosingBlock(new ArrayList<Block>(blockList.subList(1, blockList.size())));
+      //switch ( blockLabels.get(block.symbolID) ) {
+      //  case "loop until cat":
+      //    bs.add( new LoopStatement("isOnGoal", characterTarget, createBlockStatement(new ArrayList<Block>(blockList.subList(closingBlockRef, blockList.size())))));
+      //}
+      int closingBlockRef = findClosingBlock(blockList, 0);
+      switch (blockLabels.get(block.symbolID)) { //<>//
+        case "loop until cat":
+          bs.add( new LoopStatement("loopUntilGoal", characterTarget, createBlockStatement(new ArrayList<Block>(blockList.subList(1, closingBlockRef))))); //<>//
+      }
+      return createBlockStatement( new ArrayList<Block>(blockList.subList(closingBlockRef + 1, blockList.size())), bs ); //<>//
+      
       
     }
     // switch to decide statement

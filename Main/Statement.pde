@@ -21,14 +21,14 @@ class BlockStatement extends Statement {
   
   void execute() {
     for (Statement s : statements) {
-      s.execute(); //<>//
+      s.execute();
       
       // update canvas
       // canvas.update();
       
       // pause between statements
       int time = millis();
-      while (millis() - time < PAUSE_TIME) {}; //<>//
+      while (millis() - time < PAUSE_TIME) {};
     }
   }
   
@@ -43,7 +43,22 @@ class BlockStatement extends Statement {
   }
   
   ArrayList<Statement> asArray() {
-    return statements;
+    println(recursionPrint(statements, "["));
+    return statements; //<>//
+  }
+  
+  String recursionPrint(ArrayList<Statement> arr,String str) {
+    //terminate
+    if (arr.size() == 0)
+      return str + "]";
+    
+    Statement current = arr.get(0);
+    if (current instanceof BlockStatement) {
+      BlockStatement newcurr = (BlockStatement) current;
+      return recursionPrint(new ArrayList<Statement>(arr.subList(1, arr.size())), recursionPrint(newcurr.statements, "["));
+    }
+
+    return recursionPrint(new ArrayList<Statement> (arr.subList(1, arr.size())), str + current.toString());
   }
 }
 
@@ -78,7 +93,7 @@ class MoveStatement extends Statement {
         break;
     }
     c.setPos(curX, curY);
-    c.display(); //<>//
+    c.display();
   }
   
   String toString() {return "move";}
@@ -99,7 +114,7 @@ class TurnStatement extends Statement {
       c.turn(-1);
     }
     
-    c.display(); //<>//
+    c.display();
   }
   
   String toString() {return "turn";}
@@ -130,22 +145,44 @@ class ConditionalStatement extends Statement {
 class LoopStatement extends Statement {
   BlockStatement statements;
   boolean value;
-  String comparator;
+  String condition;
+  Object[] args;
   
-  LoopStatement(String comparator, Object arg1, Object arg2, BlockStatement statements) {
+  LoopStatement(String condition, String[] args, BlockStatement statements) {
     this.statements = statements;
-    this.comparator = comparator;
+    this.condition = condition;
+    this.args = args;
+  }
+  
+  LoopStatement(String condition, Sprite[] args, BlockStatement statements) {
+    this.statements = statements;
+    this.condition = condition;
+    this.args = args;
   }
   
   void execute() {
-    switch (comparator) {
-      case "equals":
-        
-    }
-    while (value) {
+    checkCondition();
+    while (value) { //<>//
       statements.execute();
       // update value
+      checkCondition();
     }
+  }
+  
+  void checkCondition() {
+    switch (condition) {
+      case "loopUntilGoal": value = !isOnGoal(); break;
+    }
+  }
+  
+  boolean isOnGoal() {
+    Sprite sprite = (Sprite) args[0];
+    Sprite target = (Sprite) args[1];
+    
+    if (sprite.posX == target.posX &&
+        sprite.posY == target.posY)
+        return true;
+    return false;
   }
   
   String toString() {return "loop - " + statements.toString();}

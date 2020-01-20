@@ -49,4 +49,25 @@ class Character extends Sprite {
       default: return "ERROR";
     }
   }
+  
+  boolean isOn(Character c) {
+    if (this.posX == c.posX &&
+        this.posY == c.posY)
+        return true;
+    return false;
+  }
+  
+  void placeAtRandom() {
+    float tileX = random(0, 20);
+    float tileY = random(0, 20);
+    
+    int x = 10 + ((int) tileX * 32);
+    int y = 10 + ((int) tileY * 32);
+    
+    setPos(x, y);
+    
+    //float x = random(10, rangeX - 22);
+    //float y = random(10, rangeY - 22);
+    //setPos( (int) x, (int) y );
+  }
 }

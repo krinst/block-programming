@@ -33,7 +33,8 @@ void setup(){
   
   // Create a goal character (cat)
   Character cat = new Character("cat", 1);
-  cat.setPos(330, 330);
+  //cat.setPos(330, 330);
+  cat.placeAtRandom();
   
   sprites.add(cat);
   //sprites2.put("goal", cat);
@@ -70,6 +71,10 @@ void draw(){
     if (statementsList.size() > 0) {
       executeFirst(statementsList);
     } else {
+      if (bm.character.isOn(bm.target)) {
+        bm.target.placeAtRandom();
+      }
+      
       running = false;
     }
   }

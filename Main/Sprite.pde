@@ -39,4 +39,14 @@ class Character extends Sprite {
       state = 0;
     }
   }
+  
+  String getDirection() {
+    switch (state) {
+      case 0: return "down";
+      case 1: return "right";
+      case 2: return "up";
+      case 3: return "left";
+      default: return "ERROR";
+    }
+  }
 }

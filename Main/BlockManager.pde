@@ -15,9 +15,11 @@ class BlockManager {
     blockLabels.put(2, "turn left");
     
     // Container Blocks (10 - )
-    blockLabels.put(10, "loop forever");
+    //blockLabels.put(10, "loop forever");
     blockLabels.put(11, "loop until cat");
     blockLabels.put(12, "loop twice");
+    blockLabels.put(13, "if on cat");
+    blockLabels.put(16, "if facing right");
     
     // Closing Block
     blockLabels.put(34, "close");
@@ -138,22 +140,25 @@ class BlockManager {
       return bs;
     }
     if (block instanceof ContainerBlock) {
-      Sprite[] characterTarget = {character, target};
-      
       // if condition
-      bs.add( new ConditionalStatement( "comparator", "arg1", "arg2", createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
+      // bs.add( new ConditionalStatement( "comparator", "arg1", "arg2", createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
       
-      // loop
-      // bs.add( new LoopStatement( "comparator", ["arg1", "arg2"], createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
-      //int closingBlockRef = findNextClosingBlock(new ArrayList<Block>(blockList.subList(1, blockList.size())));
-      //switch ( blockLabels.get(block.symbolID) ) {
-      //  case "loop until cat":
-      //    bs.add( new LoopStatement("isOnGoal", characterTarget, createBlockStatement(new ArrayList<Block>(blockList.subList(closingBlockRef, blockList.size())))));
-      //}
       int closingBlockRef = findClosingBlock(blockList, 0);
       switch (blockLabels.get(block.symbolID)) { //<>//
+        // Ifs
+        case "if facing right":
+          Object[] arguments = {character, "right"};
+          bs.add( new ConditionalStatement("direction", arguments, createBlockStatement(new ArrayList<Block>(blockList.subList(1, closingBlockRef)))));
+          break; //<>//
+        
+        // Loops
         case "loop until cat":
+          Sprite[] characterTarget = {character, target};
           bs.add( new LoopStatement("loopUntilGoal", characterTarget, createBlockStatement(new ArrayList<Block>(blockList.subList(1, closingBlockRef))))); //<>//
+          break;
+        case "loop twice":
+          bs.add( new LoopStatement("loopCount", 2, createBlockStatement(new ArrayList<Block>(blockList.subList(1, closingBlockRef)))));
+          break;
       }
       return createBlockStatement( new ArrayList<Block>(blockList.subList(closingBlockRef + 1, blockList.size())), bs ); //<>//
       

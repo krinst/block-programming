@@ -136,11 +136,13 @@ void removeTuioObject(TuioObject tobj) {
 void executeFirst(ArrayList<Statement> sl) {
   Statement s = sl.get(0);
   //println("executing: " + s.toString());
-  s.execute();
-  canvas.update();
-  sl.remove(0);
-  int time = millis();
-  while (millis() - time < PAUSE_TIME) {}
+  if (s != null) {
+    s.execute(); //<>//
+    canvas.update();
+    sl.remove(0);
+    int time = millis();
+    while (millis() - time < PAUSE_TIME) {}
+  }
 }
 
 void getStatementArray() {

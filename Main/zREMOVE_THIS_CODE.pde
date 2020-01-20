@@ -125,3 +125,11 @@
   //  }
   //  return -1;
   //}
+
+      // loop
+      // bs.add( new LoopStatement( "comparator", ["arg1", "arg2"], createBlockStatement( new ArrayList<Block>(blockList.subList(1, blockList.size())) ) ) );
+      //int closingBlockRef = findNextClosingBlock(new ArrayList<Block>(blockList.subList(1, blockList.size())));
+      //switch ( blockLabels.get(block.symbolID) ) {
+      //  case "loop until cat":
+      //    bs.add( new LoopStatement("isOnGoal", characterTarget, createBlockStatement(new ArrayList<Block>(blockList.subList(closingBlockRef, blockList.size())))));
+      //}

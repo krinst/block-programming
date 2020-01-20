@@ -77,7 +77,7 @@ class MoveStatement extends Statement {
   void execute() {
     int curX = c.posX;
     int curY = c.posY;
-    // if character has 4 states (v<>^)
+    // if character has 4 states (v<^>)
     switch (c.state) {
       case 0:
         curY += 32;
@@ -129,16 +129,38 @@ class TurnStatement extends Statement {
 class ConditionalStatement extends Statement {
   BlockStatement statements;
   boolean value;
+  Object[] args;
+  String condition;
   
   ConditionalStatement(String comparator, Object arg1, Object arg2, BlockStatement statements) {
     this.statements = statements;
   }
   
+  ConditionalStatement(String condition, Object[] args, BlockStatement statements) {
+    this.condition = condition;
+    this.args = args;
+  }
+  
   void execute() {
-    if (value) {
+    checkCondition();
+    if (value) { //<>//
       statements.execute();
     }
   }
+  
+  void checkCondition() {
+    switch (condition) {
+      case "direction": value = checkDirection(); break; //<>//
+    }
+  }
+  
+  boolean checkDirection() {
+    Character c = (Character) args[0];
+    String direction = (String) args[1];
+    if (direction.equals( c.getDirection() )) {return true;}
+    return false; //<>//
+  }
+  
   String toString() {return "if statement";}
 }
 
@@ -147,6 +169,7 @@ class LoopStatement extends Statement {
   boolean value;
   String condition;
   Object[] args;
+  int count;
   
   LoopStatement(String condition, String[] args, BlockStatement statements) {
     this.statements = statements;
@@ -158,6 +181,19 @@ class LoopStatement extends Statement {
     this.statements = statements;
     this.condition = condition;
     this.args = args;
+  }
+  
+  LoopStatement(String condition, int count, BlockStatement statements) {
+    this.statements = statements;
+    this.condition = condition;
+    if (count > 0) {
+      count++;
+    }
+  }
+  
+  LoopStatement(String condition, BlockStatement statements) {
+    this.statements = statements;
+    this.condition = condition;
   }
   
   void execute() {
@@ -172,6 +208,7 @@ class LoopStatement extends Statement {
   void checkCondition() {
     switch (condition) {
       case "loopUntilGoal": value = !isOnGoal(); break;
+      case "loopCount": value = loopCount(); break;
     }
   }
   
@@ -182,6 +219,14 @@ class LoopStatement extends Statement {
     if (sprite.posX == target.posX &&
         sprite.posY == target.posY)
         return true;
+    return false;
+  }
+  
+  boolean loopCount() {
+    if (count > 0) {
+      count--;
+      return true;
+    }
     return false;
   }
   

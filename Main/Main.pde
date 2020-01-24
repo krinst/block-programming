@@ -9,16 +9,17 @@ ArrayList<Sprite> sprites;
 BlockManager bm;
 ArrayList<Statement> statementsList;
 final int PAUSE_TIME = 1000;
+PFont font;
 
 boolean running = false;
-boolean testingMode = true;
+boolean testingMode = false;
 
 
 /*
  * SETUP
  */
 void setup(){
-  fullScreen();
+  size(660, 700);
   
   // Create an array of sprites that will show in the canvas
   sprites = new ArrayList();
@@ -46,6 +47,9 @@ void setup(){
   bm = new BlockManager();
   bm.character = (Character) sprites.get(0);
   bm.target = (Character) sprites.get(1);
+  
+  // Create Font
+  font = createFont("Arial", 16, true);
   
   // Create a TuioProcessing client instance
   tuioClient = new TuioProcessing(this);
@@ -91,6 +95,13 @@ void draw(){
       text(displayText, tobj.getScreenX(width), tobj.getScreenY(height));
     }
   }
+  
+  // Display Text
+  textFont(font, 40);
+  fill(0);
+  text("Catch the Cat", 10, 690);
+  textFont(font, 14);
+  text("Use the blocks given to get your character to the cat,\nTo start, place the play block", 300, 670);
 }
 
 

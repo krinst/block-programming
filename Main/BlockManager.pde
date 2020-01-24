@@ -9,12 +9,20 @@ class BlockManager {
   
   BlockManager() {
     // Match blocks to its name
-    // Command Blocks (0 - )
+    // Command Blocks (0 - 8)
     blockLabels.put(0, "move");
     blockLabels.put(1, "turn right");
     blockLabels.put(2, "turn left");
     
-    // Container Blocks (10 - )
+    blockLabels.put(3, "move");
+    blockLabels.put(4, "turn right");
+    blockLabels.put(5, "turn left");
+    
+    blockLabels.put(6, "move");
+    blockLabels.put(7, "turn right");
+    blockLabels.put(8, "turn left");
+    
+    // Container Blocks (10 - 16)
     //blockLabels.put(10, "loop forever");
     blockLabels.put(11, "loop until cat");
     blockLabels.put(12, "loop twice");

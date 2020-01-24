@@ -17,9 +17,6 @@ class Canvas {
     for (Sprite s : sprites) {
       s.display();
     }
-    
-    fill(0);
-    text("Use the blocks to get to the cat!", 10, 650);
   }
   
   void createGrid(int startX, int startY, int width, int length, int gap) {
